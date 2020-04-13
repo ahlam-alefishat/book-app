@@ -1,0 +1,35 @@
+
+div{
+    margin-top:35px ;
+    display: inline-block;
+      width: 380px;
+    height: auto;
+    background:#D8D8D8;
+    margin-left: 40px;
+    border-radius: 3px; 
+}
+img{
+    margin-top: 40px;
+    margin-left: 50px;
+    height: auto ;
+    width: 200px;
+    border: 4px solid white;
+}
+h2{
+    margin-top: 10px;
+    font-size: large;
+    color: white;
+    margin-bottom: 15px ;
+    text-align: center;
+}
+h3{
+    text-align: center;
+}
+p{
+    text-align: center;
+    margin-top: 20px;
+    margin-left: 35px;
+    margin-right: 35px;
+    margin-bottom: 60px;
+    font-size: 20px;
+}
