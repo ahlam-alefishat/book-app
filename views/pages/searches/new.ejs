@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="/styles/base.css">
     <link rel="stylesheet" href="/styles/icons.css">
     <link rel="stylesheet" href="/styles/layout.css">
-    <link rel="stylesheet" href="/styles/modules.css">
+    <!-- <link rel="stylesheet" href="/styles/modules.css"> -->
 
     <title>Search Books</title>
 </head>
@@ -18,7 +18,7 @@
     <header>
         <!-- Top Navigation Menu -->
         <div class="topnav">
-            <a href="" class="active">Best Books!</a>
+             <a href="" class="active">Best Books!</a>
             <!-- Navigation links (hidden by default) -->
 
             <div id="myLinks">
@@ -41,26 +41,33 @@
                     x.style.display = "block";
                 }
             }
-        </script>
+            </script>
 
     </header>
 
-    <body>
-        <main>
-                <h1>Search Results</h1>
-            <% Books.forEach(result => { %>
-            <div>
-                <img src="<%= result.img %>">
-                <h2><%= result.title %></h2>
-                <h3><%= result.author %></h3>
-                <p><%= result.description %></p>
-            </div>
-            <%  }) %>
+    <main>
+       
+        <h1>Search by Title or Author</h1>
 
-        </main>
-        <footer>
-            <h1>footer</h1>
-        </footer>
-    </body>
+          <form action="/searches/" method="POST">
+               <input type="text" name="search" id="text" placeholder="Enter title or author">
+                    <div id="title">
+                <label>Title<input class="title" name="radioType" type="radio" value="title">
+                </label></div>
+                <div id="author">
+                <label>Author<input class="title" name="radioType" type="radio" value="author"></label>
+                   </div>
+                    <div id="btn">
+                        <input type="submit" value="Search the Gooogle Books API" id="searchBtn">
+                    </div>
+            </form>
+        
+    </main>
+    <footer>
+        <h1>footer</h1>
+
+    </footer>
+
+</body>
 
 </html>
