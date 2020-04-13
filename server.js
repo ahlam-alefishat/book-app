@@ -26,15 +26,13 @@ app.get('/searches/new', (req, res) => {
 
 app.post('/searches', (req, res) => {
  
-  const enterBook = req.body.search;
-  const radioType = req.body.radioType;
   let url; 
-  if( radioType === 'title'){
-      url = `https://www.googleapis.com/books/v1/volumes?q=${enterBook}`;
-
-  }else if( radioType === 'author'){
-      url = `https://www.googleapis.com/books/v1/volumes?q=${enterBook}`;
+  if (req.body.radioType === 'title') {
+      url = `https://www.googleapis.com/books/v1/volumes?q=${req.body.search}&intitle:${req.body.search}`;
   }
+  else if (req.body.radioType === 'author') {
+      url = `https://www.googleapis.com/books/v1/volumes?q=${req.body.search}+inauthor:${req.body.search}`;
+    }
   superagent.get(url)
   .then(bookData =>{
       let books = bookData.body.items.map( bookObj=>{
