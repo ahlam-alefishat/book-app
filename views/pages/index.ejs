@@ -6,7 +6,25 @@
     <title>Book App</title>
 </head>
 <body>
-    <%- include('header'); -%>
+     <%- include('header'); -%>
+    <main>
+       
+       <h2> <%= counter%> SAVED BOOKS</h2>
+        <% Books.forEach(result => { %>
+            <div id="results">
+                
+                
+                <img src="<%= result.image_url %>">
+                <p>Book Title<%= result.title %></p>
+                <h3>Author Name <%= result.author %></h3>
+                <!-- <p>description<%= result.description %></p>
+                <p><%= result.isbn %></p>
+                <p><%= result.bookshelf%></p> -->
+                <button type="submit"><a href="/books/<%= result.id%>"></a> View Details</button>
+  
+            </div>
+            <%  }) %>
+    </main>
     <footer>
         <h1>footer</h1>
     </footer>

@@ -16,20 +16,21 @@
 
 <body>
     <header>
+        <section class="mobile-container">
         <!-- Top Navigation Menu -->
-        <div class="topnav">
-            <a href="" class="active">Best Books!</a>
+        <section class="topnav">
+             <a href="" class="active">Best Books!</a>
             <!-- Navigation links (hidden by default) -->
 
-            <div id="myLinks">
+            <section id="myLinks">
                 <a href="/">My Books</a>
                 <a href="searches/new">Search the Google Books API</a>
-            </div>
+            </section>
             <!-- "Hamburger menu" / "Bar icon" to toggle the navigation links -->
             <a href="javascript:void(0);" class="icon" onclick="myFunction()">
                 <i class="fa fa-bars"></i>
             </a>
-        </div>
+        </section>
 
 
         <script>
@@ -41,26 +42,63 @@
                     x.style.display = "block";
                 }
             }
-        </script>
+            </script>
 
     </header>
 
-    <body>
-        <main>
-                <h1>Search Results</h1>
-            <% Books.forEach(result => { %>
-            <div>
-                <img src="<%= result.img %>">
-                <h2><%= result.title %></h2>
-                <h3><%= result.author %></h3>
-                <p><%= result.description %></p>
-            </div>
-            <%  }) %>
 
-        </main>
+        <script>
+            function myFunction() {
+                var x = document.getElementById("myLinks");
+                if (x.style.display === "block") {
+                    x.style.display = "none";
+                } else {
+                    x.style.display = "block";
+                }
+            }
+            </script>
+
+    </header>
+    <main>
+        <h1>Search Results</h1>
+        <% Books.forEach(result => { %>
+        <div>
+            <img src="<%= result.image_url  %>">
+            <p><%= result.title %></p>
+            <h3><%= result.author %></h3>
+            <p><%= result.description %></p>
+            <button type="submit" id="selectBtn" >Select this book</button>
+
+            <div  >
+
+            <form id="selectForm" action="/books/<%= result.id%>" method="POST">
+                    <input type="text" name="title" value="<%= result.title %>"/>
+                    <input type="text" name="author" value="<%= result.author %>" />
+                    <textarea name="description" value="<%= result.description %>" cols="30" row="10"></textarea>
+                    <input type="number" name="isbn" value="<%= result.isbn %>" />
+                    <input type="text" name="bookshelf" value="result.bookshelf"/>
+                <button type="submit">Add to Database</button>
+                </form>
+            </div>
+
+        </div>
+        <%  }) %>
+
+
+
+
         <footer>
             <h1>footer</h1>
         </footer>
-    </body>
+    </main>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script> 
+    $(document).ready(function () {
+        $('#selectForm').hide();
+        $('#selectBtn').on('click', function () {
+            $('#selectForm').toggle();
+        })
+    })</script>
+</body>
 
 </html>
