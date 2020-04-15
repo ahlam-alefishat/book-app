@@ -10,13 +10,42 @@
 
   
     <div>
-      <img src=<%= details.image %>>
-      <p>Title: <%= details.title %></p>
-      <p>Authors: <%= details.author %></p>
-      <p>Description: <%= details.description %></p>
-      <p>ISBN: <%= details.isbn %></p>
-      <p>Bookshelf: <%= details.bookshelf %></p>
+      <img src=<%= results.image_url %>>
+      <p>Book Title: <%= results.title %></p>
+      <p>Author Name: <%= results.author %></p>
+      <p>Description: <%= results.description %></p>
+      <p>ISBN: <%= results.isbn %></p>
+      <p>Bookshelf: <%= results.bookshelf %></p>
     </div>
+    <form action="/delete/<%= results.id %>?_method=delete" method="POST">
+      <button type ='submit'> Delete </button>
+  </form>
+  <button id="updateBtn">Update</button>
+  <form action="/update/<%= results.id %>?_method=put " method="post" id="update">
+      <label >Title:</label>
+      <input type="text" name="title" value="<%= results.title %>" required>
+      <br>
+      <label >Author:</label>
+      <input type="text" name="author" value="<%= results.author %>" required>
+      <br>
+      <label >ISBN:</label>
+      <input type="text" name="isbn" value="<%= results.isbn %>" required>
+      <br>
+      <label >Bookshelf:</label>
+      <input type="text" name="bookshelf" value="<%= results.bookshelf %>" required>
+      <br>
+      <p >Description:</p>
+      <textarea name="description"  cols="30" rows="10" required><%= results.description %></textarea>
+      <button type ='submit'> Submit </button>
+  </form>
+  
   </main>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <script>
+    $('#update').hide();
+    $('#updateBtn').on('click',function(){
+      $('#update').toggle();
+    });
+      </script>
 </body>
 </html>
