@@ -5,6 +5,7 @@ const express = require('express');
 const app = express();
 const superagent=require('superagent');
 const pg= require('pg');
+const methodOverride = require('method-override');
 
 
 const PORT = process.env.PORT || 3000;
@@ -14,8 +15,7 @@ const client = new pg.Client(process.env.DATABASE_URL);
 //Specify a directory for a statis resourses 
 app.use(express.static('./public'));
 app.use(express.urlencoded({ extended: true }));
-
-app.use(express.json());
+app.use(methodOverride('_method'));
 
 app.set('view engine', 'ejs')
 
@@ -34,7 +34,7 @@ app.post('/books/:id',(req,res)=>{
           let SQL2 = `SELECT * FROM books WHERE id= '${val.id}';`;
           client.query(SQL2)
           .then(data =>{
-              res.render('pages/books/details',{details:data.rows[0]});
+              res.render('pages/books/results',{results:data.rows[0]});
           })
 
       }
@@ -46,7 +46,7 @@ app.get('/books/:id',(req,res)=>{
   let SQL = `SELECT * FROM books WHERE id = '${singular}';`;
           client.query(SQL)
           .then(data =>{
-              res.render('pages/books/details',{details:data.rows[0]});
+              res.render('pages/books/results',{results:data.rows[0]});
           })
 })
 
@@ -85,6 +85,25 @@ app.post('/searches', (req, res) => {
   .catch(error => { errorHandler(error,req,res);
   });
 });
+
+app.put('/update/:id',(req,res)=>{
+  let singular= req.params.id;
+  let {title,author,description,isbn,bookshelf} = req.body;
+  let SQL = 'UPDATE books SET title=$1,author=$2,description=$3,isbn=$4,bookshelf=$5 WHERE id=$6;';
+  let safeValues = [title,author,description,isbn,bookshelf,singular];
+  client.query(SQL,safeValues)
+  .then(data =>{
+      res.redirect(`/books/${singular}`);
+  })
+})
+
+app.delete('/delete/:id',(req,res)=>{
+  let singular = req.params.id;
+  let SQL = 'DELETE FROM books WHERE id=$1;';
+  let safeValues= [singular];
+  client.query(SQL,safeValues)
+  .then(res.redirect('/'));
+})
 
 
 function Book(books) {
