@@ -57,6 +57,14 @@
                 }
             }
             </script>
+             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script> 
+    $(document).ready(function () {
+        $('#selectForm').hide();
+        $('#selectBtn').on('click', function () {
+            $('#selectForm').toggle();
+        })
+    })</script>
 
     </header>
     <main>
@@ -71,18 +79,22 @@
 
             <div  >
 
-            <form id="selectForm" action="/books/<%= result.id%>" method="POST">
-                    <input type="text" name="title" value="<%= result.title %>"/>
+            <form id="selectForm" form action='/books/<%=result.id%>' method='POST'>
+                    <!-- <input type="text" name="title" value="<%= result.title %>"/>
                     <input type="text" name="author" value="<%= result.author %>" />
                     <textarea name="description" value="<%= result.description %>" cols="30" row="10"></textarea>
-                    <input type="number" name="isbn" value="<%= result.isbn %>" />
-                    <input type="text" name="bookshelf" value="result.bookshelf"/>
+                    <input type="number" name="isbn" value="<%= result.isbn %>" /> -->
+                    <input type="text" name="bookshelf" value="" placeholder="Enter a bookshelf"/>
+
                 <button type="submit">Add to Database</button>
+
+                
                 </form>
             </div>
 
         </div>
         <%  }) %>
+        
 
 
 
@@ -91,14 +103,7 @@
             <h1>footer</h1>
         </footer>
     </main>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-    <script> 
-    $(document).ready(function () {
-        $('#selectForm').hide();
-        $('#selectBtn').on('click', function () {
-            $('#selectForm').toggle();
-        })
-    })</script>
+   
 </body>
 
 </html>
