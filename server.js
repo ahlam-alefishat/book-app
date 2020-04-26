@@ -20,38 +20,6 @@ app.use(methodOverride('_method'));
 app.set('view engine', 'ejs')
 
 
-app.post('/books/:id',(req,res)=>{
-  let singular = req.params.id;
-  let bookshelf = req.body.bookshelf;
-  booksData.forEach(val =>{
-      if(singular === val.id){
-          
-          let SQL = 'INSERT INTO books (title,author,isbn,image_url,description, bookshelf) VALUES ($1,$2,$3,$4,$5,$6,$7);';
-          let safeValues = [val.title,val.author,val.isbn,val.image_url,val.description, val.bookshelf];
-          client.query(SQL,safeValues)
-          .then(data =>{
-          })
-          let SQL2 = `SELECT * FROM books WHERE id= '${val.id}';`;
-          client.query(SQL2)
-          .then(data =>{
-              res.render('pages/books/results',{results:data.rows[0]});
-          })
-
-      }
-  })
-})
-
-app.get('/books/:id',(req,res)=>{
-  let singular = req.params.id;
-  let SQL = `SELECT * FROM books WHERE id = '${singular}';`;
-          client.query(SQL)
-          .then(data =>{
-              res.render('pages/books/results',{results:data.rows[0]});
-          })
-})
-
-
-
 app.get('/', (req, res) => {
   let SQL='SELECT *FROM books;';
    return client.query(SQL)
@@ -60,11 +28,6 @@ app.get('/', (req, res) => {
     res.render('./pages/index',{Books: values.rows , counter:count});
   });
   
-});
-
-
-app.get('/searches/new', (req, res) => {
-  res.render('./pages/searches/new');
 });
 
 app.post('/searches', (req, res) => {
@@ -85,6 +48,69 @@ app.post('/searches', (req, res) => {
   .catch(error => { errorHandler(error,req,res);
   });
 });
+
+
+app.get('/searches/new', (req, res) => {
+  res.render('./pages/searches/new');
+});
+app.post('/books', addBook);
+
+function addBook(req,res){
+  const {image_url, title, author, description, isbn, bookshelf} = req.body;
+  const SQL = 'INSERT INTO books (image_url, title, author, description,isbn,bookshelf) VALUES($1, $2, $3 , $4, $5, $6 );'
+  const values = [title,author,isbn,image_url,description, bookshelf];
+  client.query(SQL,values).then(result =>{
+    console.log('done');
+     res.redirect('/');  
+  }) .catch(err => {
+      errorHandler(err, req, res);
+  });}
+ 
+
+  
+
+
+app.post('/books/:id',(req,res)=>{
+  let singular = req.params.id;
+  let bookshelf = req.body.bookshelf;
+  bookData.forEach(val =>{
+      if(singular === val.id){
+          
+          let SQL = 'INSERT INTO books (title,author,isbn,image_url,description, bookshelf) VALUES ($1,$2,$3,$4,$5,$6,$7);';
+          let safeValues = [val.title,val.author,val.isbn,val.image_url,val.description,val.bookshelf];
+          client.query(SQL,safeValues)
+          .then( data =>{
+            console.log('done');
+          })
+          let SQL2 = `SELECT * FROM books WHERE id={${val.id};`;
+          client.query(SQL2)
+          .then(data =>{
+            console.log(data);
+            
+              res.render('pages/books/detail',{results: data.rows[0]});
+
+          })
+
+      }
+  })
+})
+
+
+app.get('/books/:id',(req,res)=>{
+  let singular = req.params.id;
+  let SQL = `SELECT * FROM books WHERE id = '${singular}';`;
+          client.query(SQL)
+          .then(data =>{
+              res.render('pages/books/detail',{results:data.rows[0]});
+          })
+})
+
+
+
+
+
+
+
 
 app.put('/update/:id',(req,res)=>{
   let singular= req.params.id;
